@@ -1,0 +1,2098 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-Bool | منصة التعليم الذكية والاحترافية</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Cairo & Plus Jakarta Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & BASE STYLES
+           ========================================================================== */
+        :root {
+            --bg-main: #0B0F19;
+            --bg-surface: #111827;
+            --bg-card: #1F2937;
+            --bg-card-hover: #2D3748;
+            
+            --primary-dark: #0A1128;
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --accent: #06B6D4;
+            --accent-glow: rgba(6, 182, 212, 0.3);
+            --accent-orange: #F59E0B;
+            
+            --text-main: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --text-dim: #6B7280;
+            
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-highlight: rgba(6, 182, 212, 0.3);
+            
+            --glass-bg: rgba(31, 41, 55, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-main: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button, input, select, textarea {
+            font-family: inherit;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-card);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Utility Classes */
+        .container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(6, 182, 212, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px auto;
+        }
+
+        .section-subtitle {
+            display: inline-block;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            background: rgba(6, 182, 212, 0.1);
+            padding: 6px 16px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--accent-glow);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #9CA3AF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-description {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .badge-accent {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--glass-shadow);
+        }
+
+        /* View Switching System */
+        .page-view {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out forwards;
+        }
+
+        .page-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           2. NAVIGATION BAR
+           ========================================================================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #fff;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           3. HERO SECTION & STATS
+           ========================================================================== */
+        .hero {
+            position: relative;
+            padding-top: 160px;
+            padding-bottom: 80px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(6, 182, 212, 0.05) 50%, transparent 70%);
+            filter: blur(80px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .floating-card {
+            position: absolute;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 10;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-card.card-1 {
+            top: 40px;
+            right: -30px;
+        }
+
+        .floating-card.card-2 {
+            bottom: 40px;
+            left: -30px;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .stats-bar {
+            margin-top: 60px;
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #fff;
+            display: block;
+            margin-bottom: 4px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .stat-number span {
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           4. COURSES CARDS & GRID
+           ========================================================================== */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-highlight);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(6, 182, 212, 0.1);
+        }
+
+        .course-thumb {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .course-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .course-card:hover .course-thumb img {
+            transform: scale(1.08);
+        }
+
+        .course-category-tag {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(8px);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid var(--glass-border);
+        }
+
+        .course-content {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .course-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent-orange);
+            font-weight: 700;
+        }
+
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .course-instructor {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .instructor-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .instructor-name {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .course-details-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .course-details-info div {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .course-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .course-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* ==========================================================================
+           5. FEATURES / WHY V-BOOL
+           ========================================================================== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 36px;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            background: var(--bg-card);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 24px;
+            border: 1px solid var(--accent-glow);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .feature-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ==========================================================================
+           6. CATEGORIES & INSTRUCTORS & STEPS & TESTIMONIALS
+           ========================================================================== */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .category-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 30px 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-card);
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-icon {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Instructors */
+        .instructors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .instructor-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .instructor-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .instructor-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 16px;
+            border: 3px solid var(--accent);
+        }
+
+        .instructor-card h4 {
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .instructor-card p {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .instructor-stats {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Steps */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            position: relative;
+        }
+
+        .step-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: var(--radius-md);
+            position: relative;
+            text-align: center;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            margin: 0 auto 20px auto;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* ==========================================================================
+           7. COURSES CATALOG PAGE (SEARCH & FILTERS)
+           ========================================================================== */
+        .catalog-header {
+            background: var(--bg-surface);
+            padding: 60px 0 40px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-top: 80px;
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex-grow: 1;
+            position: relative;
+            min-width: 280px;
+        }
+
+        .search-box input {
+            width: 100%;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 14px 20px 14px 45px;
+            border-radius: var(--radius-full);
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .filter-dropdown {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 0 20px;
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .filter-dropdown:focus {
+            border-color: var(--accent);
+        }
+
+        /* ==========================================================================
+           8. COURSE DETAILS PAGE
+           ========================================================================== */
+        .course-header-banner {
+            margin-top: 80px;
+            background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-main) 100%);
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-details-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .video-preview-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background: #000;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .video-preview-wrapper iframe, .video-preview-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .curriculum-accordion {
+            margin-top: 30px;
+        }
+
+        .curriculum-section {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .curriculum-header {
+            padding: 16px 20px;
+            background: var(--bg-card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .curriculum-list {
+            padding: 10px 20px;
+        }
+
+        .curriculum-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .curriculum-item:last-child {
+            border-bottom: none;
+        }
+
+        .curriculum-item i {
+            margin-left: 10px;
+            color: var(--accent);
+        }
+
+        .course-sidebar-card {
+            position: sticky;
+            top: 100px;
+            padding: 30px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+        }
+
+        /* ==========================================================================
+           9. STUDENT DASHBOARD
+           ========================================================================== */
+        .dashboard-container {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            min-height: calc(100vh - 80px);
+        }
+
+        .dashboard-sidebar {
+            background: var(--bg-surface);
+            border-left: 1px solid var(--border-color);
+            padding: 30px 20px;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar-item:hover, .sidebar-item.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .dashboard-content {
+            padding: 40px;
+            background: var(--bg-main);
+        }
+
+        .dashboard-header-welcome {
+            margin-bottom: 30px;
+        }
+
+        .progress-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-main);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+        }
+
+        /* ==========================================================================
+           10. LESSON PLAYER VIEW
+           ========================================================================== */
+        .player-layout {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            height: calc(100vh - 80px);
+        }
+
+        .player-main {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #050811;
+            position: relative;
+        }
+
+        .video-controls-bar {
+            padding: 20px 30px;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-tabs-content {
+            padding: 30px;
+            background: var(--bg-main);
+            flex-grow: 1;
+        }
+
+        .player-sidebar {
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .playlist-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 700;
+        }
+
+        .playlist-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .playlist-item:hover, .playlist-item.active {
+            background: var(--bg-card);
+        }
+
+        .playlist-item.active {
+            border-right: 4px solid var(--accent);
+        }
+
+        /* ==========================================================================
+           11. CERTIFICATES & MODALS & FOOTER
+           ========================================================================== */
+        .certificate-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Auth Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--bg-surface);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            padding: 80px 0 30px 0;
+            margin-top: auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .hero-grid, .course-details-layout, .player-layout, .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-sidebar {
+                border-left: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .player-layout {
+                height: auto;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+       NAVIGATION BAR
+       ========================================================================== -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="logo" onclick="switchView('home-view')">
+                <div class="logo-icon"><i class="fa-solid fa-code"></i></div>
+                V-<span>Bool</span>
+            </div>
+
+            <ul class="nav-links">
+                <li class="nav-link active" onclick="switchView('home-view')">الرئيسية</li>
+                <li class="nav-link" onclick="switchView('catalog-view')">الكورسات</li>
+                <li class="nav-link" onclick="scrollToSection('why-us')">لماذا V-Bool؟</li>
+                <li class="nav-link" onclick="scrollToSection('instructors')">المدربون</li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline" onclick="openAuthModal('login')">تسجيل الدخول</button>
+                <button class="btn btn-primary" onclick="openAuthModal('register')">إنشاء حساب</button>
+                <button class="btn btn-secondary" onclick="switchView('dashboard-view')"><i class="fa-solid fa-user"></i> لوحة الطالب</button>
+                <div class="mobile-toggle"><i class="fa-solid fa-bars"></i></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN VIEW CONTAINER -->
+    <main id="main-content">
+
+        <!-- ==========================================================================
+           1. HOME VIEW
+           ========================================================================== -->
+        <div id="home-view" class="page-view active">
+            
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-grid">
+                        <div class="hero-text">
+                            <span class="section-subtitle">منصة التعليم الرقمي المستقبلية</span>
+                            <h1 class="hero-title">مستقبلك يبدأ من هنا.. تعلّم المهارات <span>الحقيقية</span></h1>
+                            <p class="hero-description">V-Bool ليست مجرد منصة دروس، بل بيئة تعليمية متكاملة تساعدك على إتقان البرمجة والذكاء الاصطناعي والتصميم من خلال تطبيق عملي وبناء مشاريع واقعية.</p>
+                            <div class="hero-buttons">
+                                <button class="btn btn-primary" onclick="switchView('catalog-view')">ابدأ التعلم الآن <i class="fa-solid fa-arrow-left"></i></button>
+                                <button class="btn btn-secondary" onclick="switchView('catalog-view')">استكشف الكورسات</button>
+                            </div>
+                        </div>
+
+                        <div class="hero-visual">
+                            <div class="hero-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="V-Bool Learning Platform">
+                            </div>
+
+                            <div class="floating-card card-1 glass-card">
+                                <div class="badge badge-accent"><i class="fa-solid fa-star"></i> 4.9</div>
+                                <div>
+                                    <div style="font-size:0.85rem; font-weight:700;">تقييم الطلاب</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted);">أكثر من 15,000 مراجعة</div>
+                                </div>
+                            </div>
+
+                            <div class="floating-card card-2 glass-card">
+                                <div class="badge badge-warning"><i class="fa-solid fa-trophy"></i> شهادة معتمدة</div>
+                                <div>
+                                    <div style="font-size:0.85rem; font-weight:700;">مشاريع عملية</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted);">جاهزة للبورتفوليو</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Bar -->
+                    <div class="stats-bar">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-number">12,500<span>+</span></span>
+                                <span class="stat-label">طالب نشط</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">85<span>+</span></span>
+                                <span class="stat-label">كورس احترافي</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">40<span>+</span></span>
+                                <span class="stat-label">مدرب خبير</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">98<span>%</span></span>
+                                <span class="stat-label">نسبة رضا الطلاب</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Courses -->
+            <section class="section-padding">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-subtitle">الكورسات الأكثر طلبًا</span>
+                        <h2 class="section-title">اختر مسارك البرمجي والتقني</h2>
+                        <p class="section-description">محتوى تعليمي مصمم بعناية ليواكب متطلبات سوق العمل العالمي.</p>
+                    </div>
+
+                    <div class="courses-grid" id="home-courses-grid">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why V-Bool? -->
+            <section id="why-us" class="section-padding" style="background: var(--bg-surface);">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-subtitle">لماذا V-Bool؟</span>
+                        <h2 class="section-title">تجربة تعليمية مختلفة كليًا</h2>
+                        <p class="section-description">صممنا V-Bool لتتخطى الأساليب التقليدية وتوفر بيئة تفاعلية حقيقية.</p>
+                    </div>
+
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-clock"></i></div>
+                            <h3 class="feature-title">تعلم في أي وقت</h3>
+                            <p class="feature-desc">وصول كامل لجميع المحاضرات والمصادر مدى الحياة ومن أي جهاز مناسب لك.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                            <h3 class="feature-title">محتوى عملي 100%</h3>
+                            <p class="feature-desc">تطبيق مباشر أثناء الشرح وبناء مشاريع كاملة قابلة للإضافة إلى معرض أعمالك.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                            <h3 class="feature-title">مدربون متخصصون</h3>
+                            <p class="feature-desc">نخبة من المطورين والمهندسين ذوي الخبرة العملية في كبرى الشركات التقنية.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                            <h3 class="feature-title">متابعة تقدمك</h3>
+                            <p class="feature-desc">لوحة تحكم ذكية ترصد مستوى إنجازك وتحدد النقاط التي تحتاج إلى تعزيزها.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-vial-circle-check"></i></div>
+                            <h3 class="feature-title">اختبارات وتقييمات</h3>
+                            <p class="feature-desc">تحديات برمجية واختبارات تفاعلية بعد كل وحدة لتثبيت المفاهيم العلمية.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon"><i class="fa-solid fa-certificate"></i></div>
+                            <h3 class="feature-title">شهادات إتمام</h3>
+                            <p class="feature-desc">احصل على شهادات موثقة برقم تسلسلي خاص يمكنك مشاركتها على LinkedIn.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Categories -->
+            <section class="section-padding">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-subtitle">تصنيفات التعلم</span>
+                        <h2 class="section-title">استكشف المهارات حسب المجال</h2>
+                    </div>
+
+                    <div class="categories-grid">
+                        <div class="category-card" onclick="switchView('catalog-view')">
+                            <div class="category-icon"><i class="fa-solid fa-code"></i></div>
+                            <div class="category-title">Programming</div>
+                        </div>
+                        <div class="category-card" onclick="switchView('catalog-view')">
+                            <div class="category-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                            <div class="category-title">Design & UI/UX</div>
+                        </div>
+                        <div class="category-card" onclick="switchView('catalog-view')">
+                            <div class="category-icon"><i class="fa-solid fa-robot"></i></div>
+                            <div class="category-title">AI & Data</div>
+                        </div>
+                        <div class="category-card" onclick="switchView('catalog-view')">
+                            <div class="category-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                            <div class="category-title">Digital Marketing</div>
+                        </div>
+                        <div class="category-card" onclick="switchView('catalog-view')">
+                            <div class="category-icon"><i class="fa-solid fa-briefcase"></i></div>
+                            <div class="category-title">Business</div>
+                        </div>
+                        <div class="category-card" onclick="switchView('catalog-view')">
+                            <div class="category-icon"><i class="fa-solid fa-language"></i></div>
+                            <div class="category-title">Languages</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Instructors -->
+            <section id="instructors" class="section-padding" style="background: var(--bg-surface);">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-subtitle">نخبة المعلمين</span>
+                        <h2 class="section-title">تعلم على يد خبراء الصناعة</h2>
+                    </div>
+
+                    <div class="instructors-grid">
+                        <div class="instructor-card">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Instructor">
+                            <h4>مهندس / أحمد منصور</h4>
+                            <p>Senior Full-Stack Developer</p>
+                            <div class="instructor-stats">
+                                <span><i class="fa-solid fa-book-open"></i> 12 كورس</span>
+                                <span><i class="fa-solid fa-star" style="color:var(--accent-orange)"></i> 4.9</span>
+                            </div>
+                        </div>
+                        <div class="instructor-card">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" alt="Instructor">
+                            <h4>د / كريم شريف</h4>
+                            <p>AI Specialist & Data Scientist</p>
+                            <div class="instructor-stats">
+                                <span><i class="fa-solid fa-book-open"></i> 8 كورسات</span>
+                                <span><i class="fa-solid fa-star" style="color:var(--accent-orange)"></i> 4.85</span>
+                            </div>
+                        </div>
+                        <div class="instructor-card">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Instructor">
+                            <h4>أ / سارة علي</h4>
+                            <p>Lead UI/UX Designer</p>
+                            <div class="instructor-stats">
+                                <span><i class="fa-solid fa-book-open"></i> 10 كورسات</span>
+                                <span><i class="fa-solid fa-star" style="color:var(--accent-orange)"></i> 4.95</span>
+                            </div>
+                        </div>
+                        <div class="instructor-card">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80" alt="Instructor">
+                            <h4>م / عمر فاروق</h4>
+                            <p>Cloud & DevOps Architect</p>
+                            <div class="instructor-stats">
+                                <span><i class="fa-solid fa-book-open"></i> 6 كورسات</span>
+                                <span><i class="fa-solid fa-star" style="color:var(--accent-orange)"></i> 4.9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works -->
+            <section class="section-padding">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-subtitle">كيف تعمل المنصة؟</span>
+                        <h2 class="section-title">4 خطوات لبدء رحلتك التعليمية</h2>
+                    </div>
+
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h3 style="font-size:1.1rem; color:#fff; margin-bottom:8px;">اختر الكورس</h3>
+                            <p style="color:var(--text-muted); font-size:0.9rem;">تصفح الكورسات واختر المسار المناسب لطموحاتك.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h3 style="font-size:1.1rem; color:#fff; margin-bottom:8px;">سجّل بسهولة</h3>
+                            <p style="color:var(--text-muted); font-size:0.9rem;">انضم للكورس بنقرة واحدة واستفد من الوصول الدائم.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h3 style="font-size:1.1rem; color:#fff; margin-bottom:8px;">تعلّم وطبّق</h3>
+                            <p style="color:var(--text-muted); font-size:0.9rem;">شاهد الدروس وطبق المشاريع العملية خطوة بخطوة.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <h3 style="font-size:1.1rem; color:#fff; margin-bottom:8px;">احصل على الشهادة</h3>
+                            <p style="color:var(--text-muted); font-size:0.9rem;">أكمل الاختبارات واحصل على شهادة إتمام موثقة.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="section-padding" style="background: var(--bg-surface);">
+                <div class="container">
+                    <div class="section-header">
+                        <span class="section-subtitle">آراء الطلاب</span>
+                        <h2 class="section-title">ماذا يقول طلابنا عن V-Bool؟</h2>
+                    </div>
+
+                    <div class="testimonials-grid">
+                        <div class="testimonial-card">
+                            <div style="color:var(--accent-orange); font-size:0.9rem;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.7;">"تجربة V-Bool كانت تحولاً كاملاً في مساري البرمجي. شرح عملي ممتاز وتطبيقات تبني المهارة الفعلية."</p>
+                            <div class="testimonial-author">
+                                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Student">
+                                <div>
+                                    <h5 style="color:#fff;">محمد طارق</h5>
+                                    <span style="color:var(--text-dim); font-size:0.8rem;">مطور خفي (Backend Developer)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-card">
+                            <div style="color:var(--accent-orange); font-size:0.9rem;">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.7;">"التصميم والأداء في المنصة يشعرك وكأنك تدرب في أرقى المنصات العالمية. المنهاج منظم جدًا."</p>
+                            <div class="testimonial-author">
+                                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=100&q=80" alt="Student">
+                                <div>
+                                    <h5 style="color:#fff;">نور حسن</h5>
+                                    <span style="color:var(--text-dim); font-size:0.8rem;">مصممة واجهات UI/UX</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ==========================================================================
+           2. COURSES CATALOG VIEW
+           ========================================================================== -->
+        <div id="catalog-view" class="page-view">
+            <div class="catalog-header">
+                <div class="container">
+                    <h1 class="section-title" style="text-align:right;">مكتبة الكورسات</h1>
+                    <p style="color:var(--text-muted);">استكشف أكثر من 80 كورسًا برمجياً وتقنياً متقدمًا</p>
+
+                    <div class="filter-section">
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="course-search-input" placeholder="ابحث عن كورس، تقنية، أو مدرس..." onkeyup="filterCourses()">
+                        </div>
+
+                        <select class="filter-dropdown" id="category-filter" onchange="filterCourses()">
+                            <option value="all">جميع التصنيفات</option>
+                            <option value="Programming">Programming</option>
+                            <option value="Design">Design</option>
+                            <option value="AI">AI & Data</option>
+                        </select>
+
+                        <select class="filter-dropdown" id="sort-filter" onchange="filterCourses()">
+                            <option value="popular">الأكثر شعبية</option>
+                            <option value="rating">الأعلى تقييماً</option>
+                            <option value="newest">الأحدث</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-padding">
+                <div class="container">
+                    <div class="courses-grid" id="catalog-courses-grid">
+                        <!-- Rendered via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================================
+           3. COURSE DETAILS VIEW
+           ========================================================================== -->
+        <div id="details-view" class="page-view">
+            <div class="course-header-banner">
+                <div class="container">
+                    <div class="badge badge-accent" id="cd-category">Programming</div>
+                    <h1 class="section-title" id="cd-title" style="text-align:right; margin-top:10px;">JavaScript & React Pro 2026</h1>
+                    <p style="color:var(--text-muted); max-width:700px; margin-bottom:20px;" id="cd-desc">تعلم بناء تطبيقات ويب احترافية متكاملة باستخدام أحدث ميزات React وJavaScript الحديثة مع بناء مشاريع واقعية.</p>
+
+                    <div style="display:flex; gap:20px; font-size:0.9rem; color:var(--text-muted); flex-wrap:wrap;">
+                        <span><i class="fa-solid fa-star" style="color:var(--accent-orange);"></i> <strong id="cd-rating">4.9</strong> (1,200 تقييم)</span>
+                        <span><i class="fa-solid fa-user-group"></i> <span id="cd-students">3,400</span> طالب مسجل</span>
+                        <span><i class="fa-solid fa-user-tie"></i> المدرب: <strong id="cd-instructor" style="color:#fff;">م/ أحمد منصور</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container section-padding" style="padding-top:40px;">
+                <div class="course-details-layout">
+                    <div>
+                        <div class="video-preview-wrapper">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Course Preview" allowfullscreen></iframe>
+                        </div>
+
+                        <h3 style="color:#fff; font-size:1.5rem; margin-bottom:16px;">ماذا ستتعلم في هذا الكورس؟</h3>
+                        <div class="glass-card" style="padding:24px; margin-bottom:40px;">
+                            <ul style="display:grid; grid-template-columns:1fr 1fr; gap:12px; color:var(--text-muted); font-size:0.95rem;">
+                                <li><i class="fa-solid fa-check" style="color:var(--accent); margin-left:8px;"></i> فهم عميق لـ ES6+ و Modern JS</li>
+                                <li><i class="fa-solid fa-check" style="color:var(--accent); margin-left:8px;"></i> بناء تطبيقات React مع Redux Toolkit</li>
+                                <li><i class="fa-solid fa-check" style="color:var(--accent); margin-left:8px;"></i> التعامل مع REST APIs و Async Code</li>
+                                <li><i class="fa-solid fa-check" style="color:var(--accent); margin-left:8px;"></i> نشر التطبيقات على مواقع الإنتاج</li>
+                            </ul>
+                        </div>
+
+                        <h3 style="color:#fff; font-size:1.5rem; margin-bottom:16px;">منهاج الكورس (Curriculum)</h3>
+                        <div class="curriculum-accordion">
+                            <div class="curriculum-section">
+                                <div class="curriculum-header">
+                                    <span>الوحدة الأولى: أساسيات الجافاسكريبت المتقدمة</span>
+                                    <span style="font-size:0.85rem; color:var(--text-muted);">4 دروس • 45 دقيقة</span>
+                                </div>
+                                <div class="curriculum-list">
+                                    <div class="curriculum-item">
+                                        <span><i class="fa-solid fa-play-circle"></i> مقدمة في البيئة والملفات</span>
+                                        <span>10:00</span>
+                                    </div>
+                                    <div class="curriculum-item">
+                                        <span><i class="fa-solid fa-play-circle"></i> Promises & Async/Await</span>
+                                        <span>15:00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="course-sidebar-card">
+                            <div style="font-size:2rem; font-weight:800; color:#fff; margin-bottom:20px;" id="cd-price">$89</div>
+                            <button class="btn btn-primary" style="width:100%; margin-bottom:12px;" onclick="enrollInCourse()">اشترك في الكورس الآن</button>
+                            <button class="btn btn-secondary" style="width:100%;"><i class="fa-solid fa-heart"></i> إضافة للمفضلة</button>
+
+                            <div style="margin-top:30px; border-top:1px solid var(--border-color); padding-top:20px; font-size:0.9rem; color:var(--text-muted);">
+                                <div style="margin-bottom:10px;"><i class="fa-solid fa-film" style="margin-left:10px;"></i> 45 ساعة فيديو محتوى</div>
+                                <div style="margin-bottom:10px;"><i class="fa-solid fa-file-arrow-down" style="margin-left:10px;"></i> مصادر وملفات قابلة للتحميل</div>
+                                <div style="margin-bottom:10px;"><i class="fa-solid fa-infinity" style="margin-left:10px;"></i> وصول كامل مدى الحياة</div>
+                                <div><i class="fa-solid fa-certificate" style="margin-left:10px;"></i> شهادة إتمام المادة</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================================
+           4. STUDENT DASHBOARD VIEW
+           ========================================================================== -->
+        <div id="dashboard-view" class="page-view">
+            <div class="dashboard-container">
+                <div class="dashboard-sidebar">
+                    <div class="sidebar-menu">
+                        <div class="sidebar-item active" onclick="switchDashboardTab('overview')"><i class="fa-solid fa-chart-pie"></i> الرئيسية</div>
+                        <div class="sidebar-item" onclick="switchDashboardTab('my-courses')"><i class="fa-solid fa-graduation-cap"></i> كورساتي</div>
+                        <div class="sidebar-item" onclick="switchDashboardTab('exams')"><i class="fa-solid fa-file-lines"></i> الاختبارات</div>
+                        <div class="sidebar-item" onclick="switchDashboardTab('certificates')"><i class="fa-solid fa-award"></i> الشهادات</div>
+                        <div class="sidebar-item" onclick="switchDashboardTab('settings')"><i class="fa-solid fa-gear"></i> الإعدادات</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="dashboard-header-welcome">
+                        <h2 style="font-size:2rem; color:#fff; margin-bottom:6px;">مرحباً بك، أهلاً بعودتك! 👋</h2>
+                        <p style="color:var(--text-muted);">استكمل رحلتك التعليمية اليوم وحقق أهدافك.</p>
+                    </div>
+
+                    <!-- Dashboard Overview Tab -->
+                    <div id="dash-tab-overview">
+                        <div class="progress-card">
+                            <div style="flex-grow:1;">
+                                <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+                                    <span style="font-weight:700; color:#fff;">متابعة التعلم: JavaScript & React Pro 2026</span>
+                                    <span style="color:var(--accent); font-weight:700;">65%</span>
+                                </div>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" style="width: 65%;"></div>
+                                </div>
+                                <div style="margin-top:12px; font-size:0.85rem; color:var(--text-muted);">آخر درس: Promises & Async/Await</div>
+                            </div>
+                            <button class="btn btn-primary" onclick="switchView('player-view')"><i class="fa-solid fa-play"></i> متابعة</button>
+                        </div>
+
+                        <h3 style="color:#fff; margin-bottom:20px;">الكورسات المسجل بها</h3>
+                        <div class="courses-grid" id="enrolled-courses-grid">
+                            <!-- Enrolled cards rendered JS -->
+                        </div>
+                    </div>
+
+                    <!-- Certificates Tab -->
+                    <div id="dash-tab-certificates" style="display:none;">
+                        <h3 style="color:#fff; margin-bottom:20px;">الشهادات المكتسبة</h3>
+                        <div class="certificate-card">
+                            <div>
+                                <h4 style="color:#fff; font-size:1.1rem; margin-bottom:4px;">شهادة إتمام: HTML5 & CSS3 Masterclass</h4>
+                                <span style="font-size:0.85rem; color:var(--text-muted);">تاريخ الإصدار: 15 أغسطس 2026</span>
+                            </div>
+                            <button class="btn btn-secondary" onclick="alert('جاري تحميل الشهادة بصيغة PDF...')"><i class="fa-solid fa-download"></i> تحميل الشهادة</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================================================
+           5. LESSON PLAYER VIEW
+           ========================================================================== -->
+        <div id="player-view" class="page-view">
+            <div class="player-layout">
+                <div class="player-main">
+                    <div class="video-container">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Lesson Player" allowfullscreen></iframe>
+                    </div>
+
+                    <div class="video-controls-bar">
+                        <div>
+                            <h3 style="color:#fff; font-size:1.1rem;" id="player-lesson-title">1. مقدمة في البيئة والملفات</h3>
+                            <span style="font-size:0.85rem; color:var(--text-muted);">كورس JavaScript & React Pro 2026</span>
+                        </div>
+                        <div style="display:flex; gap:12px;">
+                            <button class="btn btn-outline" style="padding:8px 16px;"><i class="fa-solid fa-arrow-right"></i> السابق</button>
+                            <button class="btn btn-primary" style="padding:8px 16px;" onclick="markLessonComplete()">تعليم كمكتمل <i class="fa-solid fa-check"></i></button>
+                            <button class="btn btn-outline" style="padding:8px 16px;">التالي <i class="fa-solid fa-arrow-left"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="player-tabs-content">
+                        <h4 style="color:#fff; margin-bottom:12px;">ملاحظات الدرس والملفات المرفقة</h4>
+                        <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.7;">في هذا الدرس نقوم بإعداد بيئة العمل الأساسية باستخدام Visual Studio Code وتثبيت الإضافات اللازمة لكتابة كود جافاسكريبت نظيف واحترافي.</p>
+                    </div>
+                </div>
+
+                <div class="player-sidebar">
+                    <div class="playlist-header">محتوى الكورس</div>
+                    <div class="playlist-item active" onclick="playLesson('1. مقدمة في البيئة والملفات')">
+                        <div>
+                            <div style="color:#fff; font-size:0.9rem; font-weight:600;">1. مقدمة في البيئة والملفات</div>
+                            <span style="font-size:0.75rem; color:var(--accent);">10:00 دقيقة</span>
+                        </div>
+                        <i class="fa-solid fa-play-circle" style="color:var(--accent);"></i>
+                    </div>
+                    <div class="playlist-item" onclick="playLesson('2. Promises & Async/Await')">
+                        <div>
+                            <div style="color:#fff; font-size:0.9rem; font-weight:600;">2. Promises & Async/Await</div>
+                            <span style="font-size:0.75rem; color:var(--text-muted);">15:00 دقيقة</span>
+                        </div>
+                        <i class="fa-solid fa-lock" style="color:var(--text-dim);"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==========================================================================
+       AUTH MODAL
+       ========================================================================== -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-card">
+            <span class="close-modal" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></span>
+            <h2 style="color:#fff; margin-bottom:8px; text-align:center;" id="modal-title">تسجيل الدخول</h2>
+            <p style="color:var(--text-muted); text-align:center; margin-bottom:24px; font-size:0.9rem;">أهلاً بك مجدداً في منصة V-Bool</p>
+
+            <form onsubmit="handleAuthSubmit(event)">
+                <div class="form-group" id="name-group" style="display:none;">
+                    <label>الاسم بالكامل</label>
+                    <input type="text" class="form-control" placeholder="أدخل اسمك الكريم">
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" class="form-control" placeholder="name@domain.com" required>
+                </div>
+                <div class="form-group">
+                    <label>كلمة المرور</label>
+                    <input type="password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">دخول</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo" style="margin-bottom:16px;">
+                        <div class="logo-icon"><i class="fa-solid fa-code"></i></div>
+                        V-<span>Bool</span>
+                    </div>
+                    <p style="color:var(--text-muted); font-size:0.9rem; max-width:320px;">منصة تعليمية إلكترونية متقدمة تهدف لتمكين الشباب العربي من إتقان مهارات التقنية والبرمجة والذكاء الاصطناعي بنهج عملي.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h4>الروابط السريعة</h4>
+                    <ul>
+                        <li><a href="#" onclick="switchView('home-view')">الرئيسية</a></li>
+                        <li><a href="#" onclick="switchView('catalog-view')">الكورسات</a></li>
+                        <li><a href="#" onclick="scrollToSection('why-us')">لماذا نحن؟</a></li>
+                        <li><a href="#" onclick="scrollToSection('instructors')">المدربون</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>التصنيفات</h4>
+                    <ul>
+                        <li><a href="#">تطوير الويب</a></li>
+                        <li><a href="#">الذكاء الاصطناعي</a></li>
+                        <li><a href="#">تصميم واجهات المستخدم</a></li>
+                        <li><a href="#">التسويق الرقمي</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>الدعم والتواصل</h4>
+                    <ul>
+                        <li><a href="#">الأسئلة الشائعة</a></li>
+                        <li><a href="#">مركز المساعدة</a></li>
+                        <li><a href="#">شروط الخدمة</a></li>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                جميع الحقوق محفوظة © 2026 V-Bool Platform. صُممت باحترافية عالية.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================================================
+       JAVASCRIPT LOGIC
+       ========================================================================== -->
+    <script>
+        /* Mock Course Database */
+        const coursesData = [
+            {
+                id: 1,
+                title: "JavaScript & React Pro 2026",
+                category: "Programming",
+                instructor: "م/ أحمد منصور",
+                rating: 4.9,
+                lessons: 45,
+                duration: "28 ساعة",
+                level: "متقدم",
+                price: "$89",
+                image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 2,
+                title: "UI/UX Design Masterclass using Figma",
+                category: "Design",
+                instructor: "أ/ سارة علي",
+                rating: 4.95,
+                lessons: 32,
+                duration: "18 ساعة",
+                level: "مبتدئ إلى متوسط",
+                price: "$69",
+                image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 3,
+                title: "Artificial Intelligence & Python Fundamentals",
+                category: "AI",
+                instructor: "د/ كريم شريف",
+                rating: 4.85,
+                lessons: 50,
+                duration: "35 ساعة",
+                level: "جميع المستويات",
+                price: "$99",
+                image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 4,
+                title: "Full-Stack Node.js & MongoDB Development",
+                category: "Programming",
+                instructor: "م/ أحمد منصور",
+                rating: 4.88,
+                lessons: 40,
+                duration: "25 ساعة",
+                level: "متوسط",
+                price: "$79",
+                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+
+        /* DOM Ready Initialization */
+        document.addEventListener("DOMContentLoaded", () => {
+            renderCourses(coursesData.slice(0, 3), "home-courses-grid");
+            renderCourses(coursesData, "catalog-courses-grid");
+            renderCourses([coursesData[0]], "enrolled-courses-grid");
+        });
+
+        /* Render Courses Array to HTML */
+        function renderCourses(list, elementId) {
+            const container = document.getElementById(elementId);
+            if (!container) return;
+
+            container.innerHTML = list.map(course => `
+                <div class="course-card">
+                    <div class="course-thumb">
+                        <img src="${course.image}" alt="${course.title}">
+                        <span class="course-category-tag">${course.category}</span>
+                    </div>
+                    <div class="course-content">
+                        <div class="course-meta">
+                            <span class="course-rating"><i class="fa-solid fa-star"></i> ${course.rating}</span>
+                            <span>${course.level}</span>
+                        </div>
+                        <h3 class="course-title">${course.title}</h3>
+                        <div class="course-instructor">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" class="instructor-avatar">
+                            <span class="instructor-name">${course.instructor}</span>
+                        </div>
+                        <div class="course-details-info">
+                            <div><i class="fa-solid fa-play-circle"></i> ${course.lessons} درس</div>
+                            <div><i class="fa-solid fa-clock"></i> ${course.duration}</div>
+                        </div>
+                        <div class="course-footer">
+                            <span class="course-price">${course.price}</span>
+                            <button class="btn btn-secondary" onclick="openCourseDetails(${course.id})">عرض الكورس</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* Single Page Navigation Switcher */
+        function switchView(viewId) {
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            const selectedView = document.getElementById(viewId);
+            if (selectedView) {
+                selectedView.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        /* Scroll to Section on Home View */
+        function scrollToSection(sectionId) {
+            switchView('home-view');
+            setTimeout(() => {
+                const el = document.getElementById(sectionId);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        /* Filter Courses in Catalog View */
+        function filterCourses() {
+            const searchVal = document.getElementById('course-search-input').value.toLowerCase();
+            const catVal = document.getElementById('category-filter').value;
+
+            const filtered = coursesData.filter(c => {
+                const matchesSearch = c.title.toLowerCase().includes(searchVal) || c.instructor.toLowerCase().includes(searchVal);
+                const matchesCat = catVal === 'all' || c.category === catVal;
+                return matchesSearch && matchesCat;
+            });
+
+            renderCourses(filtered, "catalog-courses-grid");
+        }
+
+        /* Open Specific Course Details Page */
+        function openCourseDetails(courseId) {
+            const course = coursesData.find(c => c.id === courseId);
+            if (!course) return;
+
+            document.getElementById('cd-title').textContent = course.title;
+            document.getElementById('cd-category').textContent = course.category;
+            document.getElementById('cd-rating').textContent = course.rating;
+            document.getElementById('cd-instructor').textContent = course.instructor;
+            document.getElementById('cd-price').textContent = course.price;
+
+            switchView('details-view');
+        }
+
+        /* Interactive Dashboard Tab Switcher */
+        function switchDashboardTab(tabName) {
+            document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            document.getElementById('dash-tab-overview').style.display = tabName === 'overview' ? 'block' : 'none';
+            document.getElementById('dash-tab-certificates').style.display = tabName === 'certificates' ? 'block' : 'none';
+        }
+
+        /* Interactive Lesson Player Actions */
+        function playLesson(title) {
+            document.getElementById('player-lesson-title').textContent = title;
+        }
+
+        function markLessonComplete() {
+            alert('رائع! تم تعيين الدرس كمكتمل وإضافة النقاط لسجلك التعليمي.');
+        }
+
+        function enrollInCourse() {
+            alert('تم تسجيلك في الكورس بنجاح! يتم الآن توجيهك للوحة التحكم الخاصة بك.');
+            switchView('dashboard-view');
+        }
+
+        /* Auth Modal Logic */
+        function openAuthModal(type) {
+            const modal = document.getElementById('auth-modal');
+            const title = document.getElementById('modal-title');
+            const nameGroup = document.getElementById('name-group');
+
+            if (type === 'register') {
+                title.textContent = "إنشاء حساب جديد";
+                nameGroup.style.display = "block";
+            } else {
+                title.textContent = "تسجيل الدخول";
+                nameGroup.style.display = "none";
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.remove('active');
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            closeAuthModal();
+            alert('تمت العملية بنجاح! مرحباً بك في V-Bool.');
+            switchView('dashboard-view');
+        }
+    </script>
+</body>
+</html>
+
+    
